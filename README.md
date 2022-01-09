@@ -1,1 +1,1 @@
-InfinityCubeLamp
+InfinityCube
