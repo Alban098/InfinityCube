@@ -1,6 +1,7 @@
 #pragma once
 
-#define FASTLED_INTERNAL
+#define FASTLED_INTERRUPT_RETRY_COUNT 0
+#define FASTLED_ESP8266_RAW_PIN_ORDER
 
 #include "EffectManager.h"
 #include "Palette.h"

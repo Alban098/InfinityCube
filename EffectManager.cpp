@@ -9,13 +9,13 @@ void EffectManager::init() {
 
 void EffectManager::frame() {
   if (brightness > 0) {
-    effects[effect]->renderTo(leds, frametime);
-    for (int i = 0; i < sizeof DISABLED_PIXELS / sizeof DISABLED_PIXELS[0]; i++)
-      leds[DISABLED_PIXELS[i]] = CRGB::Black;
-    FastLED.show();
-    if (millis() - lastFrame < (unsigned long)frametime)
-      delay(frametime - (millis() - lastFrame));
-    lastFrame = millis();
+    if (millis() - lastFrame > (unsigned long)frametime) {
+      effects[effect]->renderTo(leds, frametime);
+      for (int i = 0; i < sizeof DISABLED_PIXELS / sizeof DISABLED_PIXELS[0]; i++)
+        leds[DISABLED_PIXELS[i]] = CRGB::Black;
+      FastLED.show();
+      lastFrame = millis();
+    }
   }
 }
 

@@ -1,0 +1,22 @@
+#menu {
+    position: fixed;
+    width: 100%;
+    z-index: 1;
+}
+
+.palette-btn {
+    border: solid 2px !important;
+    background-size: 100%;
+    margin-bottom: 1rem;
+    height: 3rem;
+}
+
+.effect-btn {
+    margin-bottom: 1rem;
+    height: 3rem;
+}
+
+#main-pane {
+    margin-top: 120px;
+    z-index: 10;
+}

@@ -1,3 +1,6 @@
+//Credit goes to Aircookie for the palettes
+// https://github.com/Aircoookie/WLED
+
 DEFINE_GRADIENT_PALETTE ( es_vintage_57_gp ) {
     0,   2,  1,  1,
    53,  18,  1,  0,

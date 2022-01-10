@@ -1,4 +1,5 @@
-#define FASTLED_INTERNAL
+#define FASTLED_INTERRUPT_RETRY_COUNT 0
+#define FASTLED_ESP8266_RAW_PIN_ORDER
 
 #include <stdlib.h>
 #include <string>
@@ -70,18 +71,7 @@ Palette* EffectManager::palettes[Params::NB_PALETTES] = {
     new Palette("Black Magenta Red", BlacK_Magenta_Red_gp),
     new Palette("Black Magenta Red Yellow", BlacK_Red_Magenta_Yellow_gp),
     new Palette("Blue Cyan Yellow", Blue_Cyan_Yellow_gp),
-    new Palette("Orange Teal", Orange_Teal_gp),
-    new Palette("Tiamat", Tiamat_gp),
-    new Palette("April Night", April_Night_gp),
-    new Palette("Orangery", Orangery_gp),
-    new Palette("C9", C9_gp),
-    new Palette("Sakura", Sakura_gp),
-    new Palette("Aurora", Aurora_gp),
-    new Palette("Atlantica", Atlantica_gp),
-    new Palette("C9 2", C9_2_gp),
-    new Palette("C9 New", C9_new_gp),
     new Palette("Temperature", temperature_gp),
-    new Palette("Aurora 2", Aurora2_gp),
     new Palette("Retro Clown", retro_clown_gp),
     new Palette("Candy", candy_gp),
     new Palette("Toxy Reaf", toxy_reaf_gp),
