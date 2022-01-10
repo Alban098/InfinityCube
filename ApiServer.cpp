@@ -12,35 +12,30 @@ ApiServer::ApiServer(EffectManager* manager) {
 
 void ApiServer::start() {
   EEPROMUtils::init();
-  
-  uint8_t i[4] = {0, 0, 0, 0};
-  uint8_t g[4] = {0, 0, 0, 0};
-  uint8_t m[4] = {0, 0, 0, 0};
-  EEPROMUtils::readIP(IP_ADDR, i);
+
+  EEPROMUtils::readIP(IP_ADDR, net_ip);
+  IPAddress local_IP = IPAddress(net_ip[0], net_ip[1], net_ip[2], net_ip[3]);
   delay(50);
-  EEPROMUtils::readIP(GATE_ADDR, g);
+  EEPROMUtils::readIP(GATE_ADDR, net_gateway);
+  IPAddress gateway = IPAddress(net_gateway[0], net_gateway[1], net_gateway[2], net_gateway[3]);
   delay(50);
-  EEPROMUtils::readIP(MASK_ADDR, m);
+  EEPROMUtils::readIP(MASK_ADDR, net_mask);
+  IPAddress mask = IPAddress(net_mask[0], net_mask[1], net_mask[2], net_mask[3]);
   delay(50);
-  IPAddress local_IP = IPAddress(i[0], i[1], i[2], i[3]);
-  IPAddress gateway = IPAddress(g[0], g[1], g[2], g[3]);
-  IPAddress mask = IPAddress(m[0], m[1], m[2], m[3]);
 
   if (!WiFi.config(local_IP, gateway, mask, IPAddress(8, 8, 8, 8), IPAddress(8, 8, 4, 4)))
     Serial.println("Static Addressing Failed to configure");
   
-  char netw[64];
-  EEPROMUtils::readString(SSID_ADDR, netw);
+  EEPROMUtils::readString(SSID_ADDR, net_ssid);
   delay(50);
-  char pass[64];
-  EEPROMUtils::readString(PASSWORD_ADDR, pass);
-  Serial.println(netw);
-  Serial.println(pass);
+  EEPROMUtils::readString(PASSWORD_ADDR, net_pass);
+  Serial.println(net_ssid);
+  Serial.println(net_pass);
   Serial.println(local_IP);
   Serial.println(gateway);
   Serial.println(mask);
 
-  WiFi.begin(netw, pass);
+  WiFi.begin(net_ssid, net_pass);
   uint8_t connection_attempts = 0;
   while (WiFi.status() != WL_CONNECTED && connection_attempts < Params::MAX_WIFI_ATTEMPTS) {
     delay(500);
@@ -82,6 +77,11 @@ AsyncResponseStream* ApiServer::generateStatusJson(AsyncWebServerRequest *reques
   doc[Params::PARAM_SPEED] = effectManager->getEffectSpeed();
   doc[Params::PARAM_INTENSITY] = effectManager->getEffectIntensity();
   doc[Params::PARAM_BRIGHTNESS] = effectManager->getMasterBrightness();
+  doc[Params::PARAM_NET_SSID] = net_ssid;
+  doc[Params::PARAM_NET_PASS] = net_pass;
+  doc[Params::PARAM_NET_IP] = WiFi.localIP();
+  doc[Params::PARAM_NET_GATEWAY] = WiFi.gatewayIP();
+  doc[Params::PARAM_NET_MASK] = WiFi.subnetMask();
   String output;
   serializeJson(doc, output);
   response->print(output);
@@ -194,6 +194,8 @@ void ApiServer::handleSetup(AsyncWebServerRequest *request) {
       }
     }
     EEPROMUtils::commit();
+    char buf[2048];
+    sprintf(buf, HTMLPages::WIFI_CONFIRMATION, net_ssid, net_pass, net_ip[0], net_ip[1], net_ip[2], net_ip[3], net_gateway[0], net_gateway[1], net_gateway[2], net_gateway[3], net_mask[0], net_mask[1], net_mask[2], net_mask[3]); 
     AsyncWebServerResponse *response = request->beginResponse_P(200, "text/html", HTMLPages::WIFI_CONFIRMATION);
     request->send(response);
     resetFunc();

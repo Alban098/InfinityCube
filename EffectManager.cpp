@@ -2,7 +2,7 @@
 
 void EffectManager::init() {
   FastLED.addLeds<WS2812B, Params::LED_PIN, GRB>(leds, Params::NUM_PIXELS).setCorrection(TypicalLEDStrip);
-  FastLED.setBrightness(brightness);
+  setMasterBrightness(brightness);
   for (int i = 0; i < getNbEffects(); i++)
     effects[i]->linkManager(this);
 }
@@ -10,6 +10,8 @@ void EffectManager::init() {
 void EffectManager::frame() {
   if (brightness > 0) {
     effects[effect]->renderTo(leds, frametime);
+    for (int i = 0; i < sizeof DISABLED_PIXELS / sizeof DISABLED_PIXELS[0]; i++)
+      leds[DISABLED_PIXELS[i]] = CRGB::Black;
     FastLED.show();
     if (millis() - lastFrame < (unsigned long)frametime)
       delay(frametime - (millis() - lastFrame));
@@ -47,11 +49,11 @@ uint8_t EffectManager::getMasterBrightness() {
 
 void EffectManager::setMasterBrightness(uint8_t brightness) {
   this->brightness = min((uint8_t)255, max(brightness, (uint8_t)0));
-  if (brightness == 0) {
+  if (this->brightness == 0) {
     fill_solid(leds, Params::NUM_PIXELS, CRGB::Black);
     FastLED.show();
   }
-  FastLED.setBrightness(brightness);
+  FastLED.setBrightness(this->brightness / 255.0 * Params::MAX_BRIGHTNESS);
 }
 
 uint32_t EffectManager::getPrimaryColor() {

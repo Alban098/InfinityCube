@@ -13,6 +13,7 @@ class EffectManager {
       static Palette* palettes[Params::NB_PALETTES];
 
   private:
+    constexpr static const uint16_t DISABLED_PIXELS[30] = {0, 1, 17, 18, 19, 20, 36, 37, 38, 39, 55, 56, 57, 74, 75, 76, 93, 94, 110, 111, 127, 128, 144, 145, 161, 162, 178, 179, 195, 196};
     CRGB leds[Params::NUM_PIXELS];
     uint8_t brightness;
     uint8_t palette;
@@ -24,8 +25,8 @@ class EffectManager {
     uint32_t tertiaryColor;
     uint8_t effectSpeed;
     uint8_t effectIntensity;
-    
-   public:
+
+  public:
     EffectManager(uint8_t fps, uint8_t brightness, uint32_t primaryColor, uint32_t secondaryColor, uint32_t tertiaryColor) {
       this->palette = 0;
       this->effect = 0;
