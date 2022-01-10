@@ -1,0 +1,189 @@
+<!doctype html>
+{% assign currentEffect = status.effect | plus: 0 %}
+{% assign currentPalette = status.palette | plus: 0 %}
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="Content-Language" content="en">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <title>Infinity Cube Web UI</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
+        <meta name="description" content="Tabs are used to split content between multiple sections. Wide variety available.">
+        <meta name="msapplication-tap-highlight" content="no">
+        <link href="./assets/css/main.css" rel="stylesheet"></head>
+        <link href="./assets/css/style.css" rel="stylesheet"></head>
+        <link href="./dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="./dist/css/bootstrap-colorpicker.css" rel="stylesheet">
+    </head>
+
+    <body>
+        <div class="app-container app-theme-white body-tabs-shadow">
+            <div class="app-main">
+                <div class="app-main__outer">
+                    <div class="app-main__inner">
+                        <div class="app-page-title" id="menu" style="box-shadow: 0 5px 20px 0px #{{ primary }}">
+                            <div class="page-title-wrapper">
+                                <div class="page-title-heading">
+                                    <div class="page-title-icon">
+                                        <a href="/refresh"><i class="fa fa-sync-alt fa-w-16 fa-spin icon-gradient" id="logo" style="background-color: #{{ primary }}"></i></a>
+                                    </div>
+                                    <div>Infinity Cube Web UI
+                                        <div class="page-title-subheading">Control Palettes, Effects and Network Credentials.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="page-title-actions">
+                                    <form method="post" action="/" class="row">
+                                        <input type="text" class="form-control col-7 m-1" id="ip" name="ip" minlength="7" maxlength="15" size="15" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" value="{{ apiIP }}">
+                                        <button type="submit" class="btn btn-warning col-4 m-1">Change</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="main-pane">
+                            <div class="col-xl-4 col-lg-6 col-md-12">
+                                <div class="main-card mb-3 card">
+                                    <div class="card-header">
+                                        <i class="header-icon fa fa-palette fa-w-16 icon-gradient bg-plum-plate"></i>Palettes
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="form-group">
+                                            <label for="brightness" class="form-label">Brightness</label>
+                                            <input onchange="$.getJSON( '/set?brightness=' + this.value, function(data) {updateView(data)});" type="range" class="form-range form-control" min="0" max="255" step="1" id="brightness" value="{{ status.brightness }}">
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-4">
+                                                <label class="form-label">Primary</label>
+                                                <div id="primary" class="input-group pb-1" title="Using input value">
+                                                    <input type="text" class="form-control input-lg" value="#{{ primary }}"/>
+                                                    <span class="input-group-append">
+                                                        <span class="input-group-text colorpicker-input-addon"><i></i></span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-4">
+                                                <label class="form-label">Secondary</label>
+                                                <div id="secondary" class="input-group pb-1" title="Using input value">
+                                                    <input type="text" class="form-control input-lg" value="#{{ secondary }}"/>
+                                                    <span class="input-group-append">
+                                                        <span class="input-group-text colorpicker-input-addon"><i></i></span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-4">
+                                                <label class="form-label">Tertiary</label>
+                                                <div id="tertiary" class="input-group pb-1" title="Using input value">
+                                                    <input type="text" class="form-control input-lg" value="#{{ tertiary }}"/>
+                                                    <span class="input-group-append">
+                                                        <span class="input-group-text colorpicker-input-addon"><i></i></span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="d-grid gap-2">
+                                            {% for palette in palettes %}
+                                                {% assign paletteId = palette[0] | plus: 0 %}
+                                                {% if paletteId == 0 %}
+                                                    <button onclick="$.getJSON( '/set?palette={{ palette[0] }}', function(data) {updateView(data)});" class="btn btn-block palette-btn" id="palette-btn-{{ palette[0] }}" style="background-color: #{{ primary }};" type="button">
+                                                        {% if paletteId == currentPalette %}
+                                                            Selected
+                                                        {% endif %}
+                                                    </button>
+                                                {% elsif paletteId == 1 %}
+                                                    <button onclick="$.getJSON( '/set?palette={{ palette[0] }}', function(data) {updateView(data)});" class="btn btn-block palette-btn" id="palette-btn-{{ palette[0] }}" style="background: linear-gradient(90deg, #{{ primary }} 0%, #{{ secondary }} 100%);" type="button">
+                                                        {% if paletteId == currentPalette %}
+                                                            Selected
+                                                        {% endif %}
+                                                    </button>
+                                                {% elsif paletteId == 2 %}
+                                                    <button onclick="$.getJSON( '/set?palette={{ palette[0] }}', function(data) {updateView(data)});" class="btn btn-block palette-btn" id="palette-btn-{{ palette[0] }}" style="background: linear-gradient(90deg, #{{ primary }} 0%, #{{ secondary }} 50%, #{{ tertiary }} 100%);" type="button">
+                                                        {% if paletteId == currentPalette %}
+                                                            Selected
+                                                        {% endif %}
+                                                    </button>
+                                                {% else %}
+                                                    <button onclick="$.getJSON( '/set?palette={{ palette[0] }}', function(data) {updateView(data)});" class="btn btn-block palette-btn" id="palette-btn-{{ palette[0] }}" style="background-image: url('./assets/images/{{ palette[1] }}.png');" type="button">
+                                                        {% if paletteId == currentPalette %}
+                                                            Selected
+                                                        {% endif %}
+                                                    </button>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-lg-6 col-md-12">
+                                <div class="main-card mb-3 card">
+                                    <div class="card-header">
+                                        <i class="header-icon fa fa-spinner fa-w-16 fa-spin icon-gradient bg-plum-plate"></i>Effects
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="form-group">
+                                            <label for="speed" class="form-label">Effect Speed</label>
+                                            <input onchange="$.getJSON( '/set?speed=' + this.value, function(data) {updateView(data)});" type="range" class="form-range form-control" min="0" max="255" step="1" id="speed" value="{{ status.speed }}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="intensity" class="form-label">Effect Intensity</label>
+                                            <input onchange="$.getJSON( '/set?intensity=' + this.value, function(data) {updateView(data)});" type="range" class="form-range form-control" min="0" max="255" step="1" id="intensity" value="{{ status.intensity }}">
+                                        </div>
+                                        <div class="d-grid gap-2">
+                                            {% for effect in effects %}
+                                                {% assign effectId = effect[0] | plus: 0 %}
+                                                <button onclick="$.getJSON( '/set?effect={{ effect[0] }}', function(data) {updateView(data)});" class="btn btn-block {% if effectId == currentEffect %} btn-danger {% else %} btn-outline-danger {% endif %} effect-btn" id="effect-btn-{{ effect[0] }}" type="button">
+                                                    {{ effect[1] }}
+                                                </button>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-lg-12">
+                                <div class="main-card mb-3 card">
+                                    <div class="card-header">
+                                        <i class="header-icon fa fa-wifi fa-w-16 icon-gradient bg-plum-plate"></i>Network Settings
+                                    </div>
+                                    <div class="card-body">
+                                        <form method="post" action="/" class="row g-3">
+                                            <div class="col-md-6">
+                                                <label for="net_ssid" class="form-label">SSID</label>
+                                                <input type="text" class="form-control" id="net_ssid" name="net_ssid" value="{{ status.net_ssid }}">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="net_pass" class="form-label">Password</label>
+                                                <input type="text" class="form-control" id="net_pass" name="net_pass" value="{{ status.net_pass }}">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="net_ip" class="form-label">Static IP</label>
+                                                <input type="text" class="form-control" id="net_ip" name="net_ip" minlength="7" maxlength="15" size="15" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" value="{{ status.net_ip }}">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="net_gateway" class="form-label">Gateway</label>
+                                                <input type="text" class="form-control" id="net_gateway" name="net_gateway" minlength="7" maxlength="15" size="15" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" value="{{ status.net_gateway }}">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="net_mask" class="form-label">Mask</label>
+                                                <input type="text" class="form-control" id="net_mask" name="net_mask" minlength="7" maxlength="15" size="15" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" value="{{ status.net_mask }}">
+                                            </div>
+                                            <div class="col-12 pt-3">
+                                                <button type="submit" class="btn btn-block btn-success">Save</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript" src="./assets/scripts/main.js"></script>
+        <script type="text/javascript" src="./dist/js/jquery.min.js"></script>
+        <script type="text/javascript" src="./dist/js/popper.min.js"></script>
+        <script type="text/javascript" src="./dist/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="./dist/js/bootstrap-colorpicker.js"></script>
+        <script type="text/javascript" src="./assets/scripts/script.js"></script>
+    </body>
+</html>

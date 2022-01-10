@@ -71,6 +71,7 @@ AsyncResponseStream* ApiServer::generateStatusJson(AsyncWebServerRequest *reques
   response->addHeader("type","status");
   DynamicJsonDocument doc(2048);
   doc[Params::PARAM_EFFECT] = effectManager->getEffectId();
+  doc[Params::PARAM_PAL] = effectManager->getPaletteId();
   doc[Params::PARAM_COLOR_0] = effectManager->getPrimaryColor();
   doc[Params::PARAM_COLOR_1] = effectManager->getSecondaryColor();
   doc[Params::PARAM_COLOR_2] = effectManager->getTertiaryColor();
