@@ -1,10 +1,16 @@
 const axios = require('axios');
 const net = require("net");
+const ping = require("ping");
 
 exports.address = '10.5.0.7';
 exports.effets = {};
 exports.palettes = {};
 exports.status = {};
+
+exports.ping = async function() {
+    let result = await ping.promise.probe(this.address, {timeout: 2});
+    return result.alive;
+}
 
 exports.fetchEffects = async function() {
     return axios.get("http://" + this.address + "/api?effects=0").then(res => {

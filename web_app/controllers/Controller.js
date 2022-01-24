@@ -11,8 +11,23 @@ exports.indexAction = async function(req, res) {
         apiIP: Api.address,
         primary: Utils.rgbToHex(Api.status.primary_color),
         secondary: Utils.rgbToHex(Api.status.secondary_color),
-        tertiary: Utils.rgbToHex(Api.status.tertiary_color)
+        tertiary: Utils.rgbToHex(Api.status.tertiary_color),
     });
+}
+
+exports.setAction = async function(req, res) {
+    const params = url.parse(req.url, true).query;
+    await Api.set(params);
+    res.json(Api.status);
+}
+
+exports.pingAction = async function(req, res) {
+    return res.json(await Api.ping());
+}
+
+exports.fetchAction = async function(req, res) {
+    await Api.fetchStatus();
+    return res.json(Api.status);
 }
 
 exports.refreshAction = async function(req, res) {
@@ -51,10 +66,4 @@ exports.configAction = async function(req, res) {
     req.on('end', async () => {
         res.redirect("/");
     });
-}
-
-exports.setAction = async function(req, res) {
-    const params = url.parse(req.url, true).query;
-    await Api.set(params);
-    res.json(Api.status);
 }

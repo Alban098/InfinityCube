@@ -24,12 +24,21 @@ $(function () {
     $('#primary').colorpicker(options).on('colorpickerHide', function (e) {$.getJSON(('/set?primary=' + e.value).replace('#', ''), function(data) {updateView(data)});});
     $('#secondary').colorpicker(options).on('colorpickerHide', function (e) { $.getJSON(('/set?secondary=' + e.value).replace('#', ''), function(data) {updateView(data)}); });
     $('#tertiary').colorpicker(options).on('colorpickerHide', function (e) { $.getJSON(('/set?tertiary=' + e.value).replace('#', ''), function(data) {updateView(data)}); });
+
+    fetchStatus();
+    setInterval(fetchStatus, 5000);
+    setInterval(refreshView, 10000)
 });
+
+function refreshView() {
+    $.getJSON( '/fetch', function(data) {updateView(data);});
+}
 
 function updateView(data) {
     selectPalette(data.palette);
     selectEffect(data.effect);
     $("#menu").css("box-shadow", "0 5px 20px 0px #" + rgbToHex(data.primary_color));
+    $("#logo").css("background-color", "#" + rgbToHex(data.primary_color));
     $("#brightness").val(data.brightness);
     $("#intensity").val(data.intensity);
     $("#speed").val(data.speed);
@@ -71,4 +80,13 @@ function rgbToHex(rgb) {
     let b = ((rgb) & 0xFF).toString(16);
     if (b.length < 2) b = '0' + b;
     return r + g + b;
+}
+
+function fetchStatus() {
+    $.getJSON( '/ping', function(data) {
+        if (data)
+            $("#status").css('background-color', 'limegreen');
+        else
+            $("#status").css('background-color', 'red');
+    });
 }
