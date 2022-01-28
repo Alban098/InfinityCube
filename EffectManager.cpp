@@ -115,7 +115,7 @@ Palette* EffectManager::getPalette(String name) {
     if (strcmp(palettes[i]->getLabel().c_str(), name.c_str()) == 0)
       return palettes[i]; 
   }
-  return new Palette("EMPTY", CRGB::Black);
+  return new Palette("EMPTY", NOBLEND, CRGB::Black);
 }
 
 Palette* EffectManager::getPalette(uint8_t id) {

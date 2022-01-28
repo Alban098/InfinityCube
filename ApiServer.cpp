@@ -12,6 +12,7 @@ ApiServer::ApiServer(EffectManager* manager) {
 
 void ApiServer::start() {
   EEPROMUtils::init();
+  WiFi.mode(WIFI_STA);
 
   EEPROMUtils::readIP(IP_ADDR, net_ip);
   IPAddress local_IP = IPAddress(net_ip[0], net_ip[1], net_ip[2], net_ip[3]);
@@ -43,8 +44,9 @@ void ApiServer::start() {
     connection_attempts++;
   }
 
-  if (WiFi.status() != WL_CONNECTED) {
+  if (WiFi.status() == WL_NO_SSID_AVAIL || WiFi.status() == WL_CONNECT_FAILED) {
     WiFi.disconnect();
+    WiFi.mode(WIFI_AP);
     Serial.println("Unable to connect to Wifi, please use Integrated Access Point ('InfinityCube', '123456789')");
     WiFi.softAP("InfinityCube", "123456789");
     Serial.print("Access Point IP : ");

@@ -6,7 +6,7 @@ class Params {
     static const uint16_t NUM_PIXELS        = 190;
     static const uint8_t LED_PIN            = 4;
     static const uint8_t NB_EFFECTS         = 21;
-    static const uint8_t NB_PALETTES        = 49;
+    static const uint8_t NB_PALETTES        = 54;
     static const uint8_t FPS                = 60;
     static const uint8_t BRIGHTNESS         = 0;
     static const uint8_t MAX_WIFI_ATTEMPTS  = 25;
