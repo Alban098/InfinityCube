@@ -89,10 +89,6 @@ class Breath : public Effect {
 };
 
 class BreathPal : public Effect {
-  private:
-    float blink_cnt = 0;
-    bool snd = false;
-
   public:
     BreathPal() : Effect() { this->label = "Breath Palette"; }
     ~BreathPal() {}

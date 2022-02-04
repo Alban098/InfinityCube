@@ -150,7 +150,7 @@ void Dynamic::renderTo(CRGB* leds, uint32_t frameTime) {
   if (dyn_cnt > 10) {
     fill_solid(leds, Params::NUM_PIXELS, CRGB::Black);
     for (int i = 0; i < effectManager->getEffectIntensity() / 255.0 * Params::NUM_PIXELS; i++)
-      leds[random8(Params::NUM_PIXELS)] = CHSV(random8(), 0xFF, 0xFF);
+      leds[random16(Params::NUM_PIXELS)] = CHSV(random8(), 0xFF, 0xFF);
     dyn_cnt = 0;
   }
 }
@@ -162,7 +162,7 @@ void DynamicPal::renderTo(CRGB* leds, uint32_t frameTime) {
     fill_solid(leds, Params::NUM_PIXELS, CRGB::Black);
     for (int i = 0; i < effectManager->getEffectIntensity() / 255.0 * Params::NUM_PIXELS; i++) {
       int index = random16(Params::NUM_PIXELS);
-      leds[i] = effectManager->getPalette()->sample((uint8_t)(0xFF * index / Params::NUM_PIXELS), 0xFF); 
+      leds[index] = effectManager->getPalette()->sample((uint8_t)(0xFF * index / Params::NUM_PIXELS), 0xFF); 
     }
     dyn_cnt = 0;
   }
@@ -183,7 +183,7 @@ void Scan::renderTo(CRGB* leds, uint32_t frameTime) {
     fill_solid(leds, Params::NUM_PIXELS, CRGB::Black);
     for (int i = 0; i < effectManager->getEffectIntensity() / 255.0 * (Params::NUM_PIXELS >> 1); i++) {
       uint16_t index = (current_pos + i) % Params::NUM_PIXELS;
-      leds[i] = effectManager->getPalette()->sample((uint8_t)(0xFF * index / Params::NUM_PIXELS), 0xFF);
+      leds[index] = effectManager->getPalette()->sample((uint8_t)(0xFF * index / Params::NUM_PIXELS), 0xFF);
     }
     scan_cnt = 0;
     if (current_pos > Params::NUM_PIXELS)
@@ -233,7 +233,7 @@ void PaletteTwinkle::renderTo(CRGB* leds, uint32_t frameTime) {
   if (twinkle_cnt > cnt_threshold ) {
     for (int i = 0; i < twinkle_cnt / cnt_threshold; i++) {
       uint16_t index = random16(Params::NUM_PIXELS);
-      leds[i] = effectManager->getPalette()->sample((uint8_t)(0xFF * i / Params::NUM_PIXELS), 0xFF);
+      leds[index] = effectManager->getPalette()->sample((uint8_t)(0xFF * i / Params::NUM_PIXELS), 0xFF);
     }
     twinkle_cnt = 0;
   }

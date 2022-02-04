@@ -4,13 +4,15 @@
 class Params {
   public:
     static const uint16_t NUM_PIXELS        = 190;
-    static const uint8_t LED_PIN            = 4;
+    static const uint8_t LED_PIN            = 12;  // D6
+    static const uint8_t JOY_SW_PIN         = 13;  // D7
     static const uint8_t NB_EFFECTS         = 21;
     static const uint8_t NB_PALETTES        = 54;
     static const uint8_t FPS                = 60;
     static const uint8_t BRIGHTNESS         = 0;
     static const uint8_t MAX_WIFI_ATTEMPTS  = 25;
     static const uint8_t MAX_BRIGHTNESS     = 255;
+    static const uint16_t SLEEP_DELAY       = 10000;
     
     static const uint32_t DEFAULT_PRIMARY_COLOR    = 0xFF0000;
     static const uint32_t DEFAULT_SECONDARY_COLOR  = 0x00FF00;

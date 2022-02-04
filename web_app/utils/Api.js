@@ -17,7 +17,6 @@ exports.fetchEffects = async function() {
         for (let effect in res.data)
             this.effets[res.data[effect]] = effect;
     }).catch(err => { console.log(err.code); });
-
 }
 
 exports.fetchPalettes = async function() {
@@ -25,7 +24,6 @@ exports.fetchPalettes = async function() {
         for (let palette in res.data)
             this.palettes[res.data[palette]] = palette;
     }).catch(err => { console.log(err.code); });
-
 }
 
 exports.fetchStatus = async function() {

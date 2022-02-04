@@ -10,8 +10,8 @@
 
 class EffectManager {
   public:
-      static Effect* effects[Params::NB_EFFECTS];
-      static Palette* palettes[Params::NB_PALETTES];
+    static Effect* effects[Params::NB_EFFECTS];
+    static Palette* palettes[Params::NB_PALETTES];
 
   private:
     constexpr static const uint16_t DISABLED_PIXELS[] = {};

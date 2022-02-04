@@ -16,7 +16,9 @@ A kind of lightweight ESP32/ESP8266 webserver API and a [NodeJS](https://nodejs.
 - Access Point and station mode - automatic failsafe AP see [ApiServer](./ApiServer.cpp)
 - Ability to disable leds on the strip to avoid overheating (in my case I disabled leds behind the corner covers)
 - Possibility to rescale the brightness range
-
+- Controllable using integrated Joystick
+- Possibility to use an I2C 128x64 screen to monitor status (with configurable auto sleep)
+  - Not tested yet, will be reworked and tested when I will have the hardware delivered
 ## 📲 Quick start
 
 ### Required libraries
@@ -99,6 +101,12 @@ The API is exposed over 2 endpoints
 
 <p align="center">
     <img src="/images/webUI.PNG" width="100%">
+</p>
+
+## ⚙️Integrated Screen
+
+<p align="center">
+    <img src="/images/screen.png" width="70%">
 </p>
 
 ## Legacy

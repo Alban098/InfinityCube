@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <string>
 #include "EffectManager.h"
+#include "ScreenManager.h"
+#include "InputManager.h"
 #include "Params.h"
 #include "Effects.h"
 #include "ApiServer.h"
@@ -68,10 +70,10 @@ Palette* EffectManager::palettes[Params::NB_PALETTES] = {
     new Palette("Beech", LINEARBLEND, Beech_gp),
     new Palette("Another Sunset", LINEARBLEND, Another_Sunset_gp),
     new Palette("Autumn", LINEARBLEND, es_autumn_19_gp),
-    new Palette("Black Blue Magenta White", LINEARBLEND, BlacK_Blue_Magenta_White_gp),
-    new Palette("Black Magenta Red", LINEARBLEND, BlacK_Magenta_Red_gp),
-    new Palette("Black Magenta Red Yellow", LINEARBLEND, BlacK_Red_Magenta_Yellow_gp),
-    new Palette("Blue Cyan Yellow", LINEARBLEND, Blue_Cyan_Yellow_gp),
+    new Palette("BBMW", LINEARBLEND, BlacK_Blue_Magenta_White_gp),
+    new Palette("BMR", LINEARBLEND, BlacK_Magenta_Red_gp),
+    new Palette("BMRY", LINEARBLEND, BlacK_Red_Magenta_Yellow_gp),
+    new Palette("BCY", LINEARBLEND, Blue_Cyan_Yellow_gp),
     new Palette("Temperature", NOBLEND, temperature_gp),
     new Palette("Retro Clown", LINEARBLEND, retro_clown_gp),
     new Palette("Candy", LINEARBLEND, candy_gp),
@@ -94,7 +96,11 @@ Palette* EffectManager::palettes[Params::NB_PALETTES] = {
     new Palette("Christmas Candy", LINEARBLEND, christmas_candy_gp)
 };
 
+Adafruit_SSD1306 display(128, 64, &Wire, 4);
+
 EffectManager effectManager = EffectManager(Params::FPS, Params::BRIGHTNESS, Params::DEFAULT_PRIMARY_COLOR, Params::DEFAULT_SECONDARY_COLOR, Params::DEFAULT_TERTIARY_COLOR);
+ScreenManager screenManager = ScreenManager(30, &effectManager, &display);
+InputManager inputManager = InputManager(30, &effectManager, &screenManager);
 ApiServer server = ApiServer(&effectManager);
 
 void setup() {
@@ -104,5 +110,7 @@ void setup() {
 }
 
 void loop(){
+  inputManager.frame();
+  screenManager.frame();
   effectManager.frame();
 }
