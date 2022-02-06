@@ -6,8 +6,8 @@
 #define GATE_ADDR       164
 #define MASK_ADDR       168
 
-ApiServer::ApiServer(EffectManager* manager) {
-  this->effectManager = manager;
+ApiServer::ApiServer(EffectManager* effectManager, InputManager* inputManager) {
+  this->effectManager = effectManager;
 }
 
 void ApiServer::start() {
@@ -60,10 +60,12 @@ void ApiServer::start() {
   std::function<void(AsyncWebServerRequest *request)> postHandler = std::bind(&ApiServer::handlePost, this, std::placeholders::_1);
   std::function<void(AsyncWebServerRequest *request)> getHandler = std::bind(&ApiServer::handleGet, this, std::placeholders::_1);
   std::function<void(AsyncWebServerRequest *request)> setupHandler = std::bind(&ApiServer::handleSetup, this, std::placeholders::_1);
+  std::function<void(AsyncWebServerRequest *request)> calibrateHandler = std::bind(&ApiServer::handleCalibrate, this, std::placeholders::_1);
    
   server.on("/api", HTTP_POST, postHandler);
   server.on("/api", HTTP_GET, getHandler);
   server.on("/setup", HTTP_GET, setupHandler);
+  server.on("/calibrate", HTTP_GET, calibrateHandler);
   
   server.begin();
 }
@@ -158,6 +160,11 @@ void ApiServer::handlePost(AsyncWebServerRequest *request) {
     }
   }
   request->send(generateStatusJson(request));
+}
+
+void ApiServer::handleCalibrate(AsyncWebServerRequest *request) {
+  inputManager->calibrate();
+  request->send(request->beginResponse_P(200, "text/html", "success"));
 }
 
 void ApiServer::handleSetup(AsyncWebServerRequest *request) {

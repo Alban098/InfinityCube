@@ -9,6 +9,7 @@ class InputManager {
     ScreenManager* screenManager;
     uint32_t lastFrame = 0;
     uint32_t frametime = 0;
+    uint16_t null_pt = 512;
     bool is_joystick_free = true;
     bool is_button_free = true;
 
@@ -20,4 +21,5 @@ class InputManager {
     ~InputManager() {}
   
     void frame();
+    void calibrate();
 };

@@ -101,11 +101,12 @@ Adafruit_SSD1306 display(128, 64, &Wire, 4);
 EffectManager effectManager = EffectManager(Params::FPS, Params::BRIGHTNESS, Params::DEFAULT_PRIMARY_COLOR, Params::DEFAULT_SECONDARY_COLOR, Params::DEFAULT_TERTIARY_COLOR);
 ScreenManager screenManager = ScreenManager(30, &effectManager, &display);
 InputManager inputManager = InputManager(30, &effectManager, &screenManager);
-ApiServer server = ApiServer(&effectManager);
+ApiServer server = ApiServer(&effectManager, &inputManager);
 
 void setup() {
   Serial.begin(115200);
   effectManager.init(); 
+  inputManager.calibrate();
   server.start();
 }
 

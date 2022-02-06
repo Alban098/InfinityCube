@@ -6,6 +6,7 @@ class Params {
     static const uint16_t NUM_PIXELS        = 190;
     static const uint8_t LED_PIN            = 12;  // D6
     static const uint8_t JOY_SW_PIN         = 13;  // D7
+    static const uint8_t JOY_DEAD_ZONE      = 25;
     static const uint8_t NB_EFFECTS         = 21;
     static const uint8_t NB_PALETTES        = 54;
     static const uint8_t FPS                = 60;
