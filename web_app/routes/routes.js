@@ -10,5 +10,6 @@ module.exports = router => {
     router.post('/', Controller.netAction);
     router.get('/set', Controller.setAction);
     router.get('/ping', Controller.pingAction);
+    router.get('/calibrate', Controller.calibrateAction)
     router.post('/config', Controller.configAction);
 }

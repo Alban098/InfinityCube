@@ -16,8 +16,10 @@ exports.indexAction = async function(req, res) {
 }
 
 exports.setAction = async function(req, res) {
-    const params = url.parse(req.url, true).query;
-    await Api.set(params);
+    if (await Api.ping()) {
+        const params = url.parse(req.url, true).query;
+        await Api.set(params);
+    }
     res.json(Api.status);
 }
 
@@ -25,15 +27,26 @@ exports.pingAction = async function(req, res) {
     return res.json(await Api.ping());
 }
 
+exports.calibrateAction = async function(req, res) {
+    if (await Api.ping()) {
+        await Api.calibrate();
+        return res.json("OK");
+    }
+    return res.json("ERROR")
+}
+
 exports.fetchAction = async function(req, res) {
-    await Api.fetchStatus();
+    if (await Api.ping())
+        await Api.fetchStatus();
     return res.json(Api.status);
 }
 
 exports.refreshAction = async function(req, res) {
-    await Api.fetchEffects();
-    await Api.fetchPalettes();
-    await Api.fetchStatus();
+    if (await Api.ping()) {
+        await Api.fetchEffects();
+        await Api.fetchPalettes();
+        await Api.fetchStatus();
+    }
     res.redirect("/");
 }
 
@@ -47,7 +60,8 @@ exports.netAction = async function(req, res) {
         }
     });
     req.on('end', async () => {
-        Api.setNetwork(body.net_ssid, body.net_pass, body.net_ip, body.net_gateway, body.net_mask)
+        if (await Api.ping())
+            Api.setNetwork(body.net_ssid, body.net_pass, body.net_ip, body.net_gateway, body.net_mask)
         res.redirect("/");
     });
 }

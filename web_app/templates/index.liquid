@@ -30,8 +30,9 @@
                                         <a href="/refresh"><i class="fa fa-sync-alt fa-w-16 fa-spin icon-gradient" id="logo" style="background-color: #{{ primary }}"></i></a>
                                     </div>
                                     <div>Infinity Cube Web UI
-                                        <i class="fa fa-circle fa-w-16 fa-spin icon-gradient" id="status" style="background-color: red"></i>
-                                        <div class="page-title-subheading">Control Palettes, Effects and Network Credentials.
+                                        <i class="fa fa-circle fa-w-16 icon-gradient" id="status" style="background-color: red"></i>
+                                        <div class="page-title-subheading">
+                                            Control Palettes, Effects and Network Credentials.
                                         </div>
                                     </div>
                                 </div>
@@ -39,6 +40,8 @@
                                     <form method="post" action="/" class="row">
                                         <input type="text" class="form-control col-7 m-1" id="ip" name="ip" minlength="7" maxlength="15" size="15" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" value="{{ apiIP }}">
                                         <button type="submit" class="btn btn-warning col-4 m-1">Change</button>
+                                        <div class="col-3"></div>
+                                        <a href="/calibrate" class="btn btn-info col-5 m-1">Calibrate Joystick</a>
                                     </form>
                                 </div>
                             </div>

@@ -19,6 +19,10 @@ exports.fetchEffects = async function() {
     }).catch(err => { console.log(err.code); });
 }
 
+exports.calibrate = async function() {
+    return axios.get("http://" + this.address + "/calibrate").catch(err => { console.log(err.code); });
+}
+
 exports.fetchPalettes = async function() {
     return axios.get("http://" + this.address + "/api?palettes=0").then(res => {
         for (let palette in res.data)
