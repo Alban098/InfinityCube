@@ -96,7 +96,7 @@ Palette* EffectManager::palettes[Params::NB_PALETTES] = {
     new Palette("Christmas Candy", LINEARBLEND, christmas_candy_gp)
 };
 
-Adafruit_SSD1306 display(128, 64, &Wire, 4);
+Adafruit_SSD1306 display(128, 64, &Wire, -1);
 
 EffectManager effectManager = EffectManager(Params::FPS, Params::BRIGHTNESS, Params::DEFAULT_PRIMARY_COLOR, Params::DEFAULT_SECONDARY_COLOR, Params::DEFAULT_TERTIARY_COLOR);
 ScreenManager screenManager = ScreenManager(30, &effectManager, &display);
@@ -107,6 +107,7 @@ void setup() {
   Serial.begin(115200);
   effectManager.init(); 
   inputManager.calibrate();
+  screenManager.awake();
   server.start();
 }
 

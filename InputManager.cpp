@@ -22,7 +22,7 @@ void InputManager::frame() {
     uint16_t x = readX();
     bool sw = readSW();
 
-    uint8_t tmp, delta;
+    int16_t tmp, delta;
 
     if (sw && is_button_free) {
       screenManager->setCursorPos((screenManager->getCursorPos() + 1) % 5);
@@ -36,13 +36,13 @@ void InputManager::frame() {
       case 0:
         if (x > null_pt + Params::JOY_DEAD_ZONE) {
           delta = map(x - (null_pt + Params::JOY_DEAD_ZONE), 0, null_pt - Params::JOY_DEAD_ZONE, 0, 7);
-          tmp = min(effectManager->getMasterBrightness() + delta, 255);
+          tmp = max(effectManager->getMasterBrightness() - delta, 0);
           effectManager->setMasterBrightness(tmp);
           screenManager->awake();
           is_joystick_free = false;
         } else if (x < null_pt - Params::JOY_DEAD_ZONE) {
           delta = map(x, 0, null_pt - Params::JOY_DEAD_ZONE, 7, 0);
-          tmp = max(effectManager->getMasterBrightness() - delta, 0);
+          tmp = min(effectManager->getMasterBrightness() + delta, 255);
           effectManager->setMasterBrightness(tmp);
           screenManager->awake();
           is_joystick_free = false;
@@ -53,13 +53,13 @@ void InputManager::frame() {
       case 1:
         if (x > null_pt + Params::JOY_DEAD_ZONE) {
           delta = map(x - (null_pt + Params::JOY_DEAD_ZONE), 0, null_pt - Params::JOY_DEAD_ZONE, 0, 7);
-          tmp = min(effectManager->getEffectSpeed() + delta, 255);
+          tmp = max(effectManager->getEffectSpeed() - delta, 0);
           effectManager->setEffectSpeed(tmp);
           screenManager->awake();
           is_joystick_free = false;
         } else if (x < null_pt - Params::JOY_DEAD_ZONE) {
           delta = map(x, 0, null_pt - Params::JOY_DEAD_ZONE, 7, 0);
-          tmp = max(effectManager->getEffectSpeed() - delta, 0);
+          tmp = min(effectManager->getEffectSpeed() + delta, 255);
           effectManager->setEffectSpeed(tmp);
           screenManager->awake();
           is_joystick_free = false;
@@ -70,13 +70,14 @@ void InputManager::frame() {
       case 2:
         if (x > null_pt + Params::JOY_DEAD_ZONE) {
           delta = map(x - (null_pt + Params::JOY_DEAD_ZONE), 0, null_pt - Params::JOY_DEAD_ZONE, 0, 7);
-          tmp = min(effectManager->getEffectIntensity() + delta, 255);
+          
+          tmp = max(effectManager->getEffectIntensity() - delta, 0);
           effectManager->setEffectIntensity(tmp);
           screenManager->awake();
           is_joystick_free = false;
         } else if (x < null_pt - Params::JOY_DEAD_ZONE) {
           delta = map(x, 0, null_pt - Params::JOY_DEAD_ZONE, 7, 0);
-          tmp = max(effectManager->getEffectIntensity() - delta, 0);
+          tmp = min(effectManager->getEffectIntensity() + delta, 255);
           effectManager->setEffectIntensity(tmp);
           screenManager->awake();
           is_joystick_free = false;
@@ -86,13 +87,13 @@ void InputManager::frame() {
         break;
       case 3:
         if (x > 1000 && is_joystick_free) {
-          tmp = (effectManager->getEffectId() + 1) % Params::NB_EFFECTS;
+          tmp = effectManager->getEffectId() - 1;
+          if (tmp < 0) tmp += Params::NB_EFFECTS;
           effectManager->selectEffect(tmp);
           screenManager->awake();
           is_joystick_free = false;
         } else if (x < 24 && is_joystick_free) {
-          tmp = effectManager->getEffectId() - 1;
-          if (tmp < 0) tmp += Params::NB_EFFECTS;
+          tmp = (effectManager->getEffectId() + 1) % Params::NB_EFFECTS;
           effectManager->selectEffect(tmp);
           screenManager->awake();
           is_joystick_free = false;
@@ -102,13 +103,13 @@ void InputManager::frame() {
         break;
       case 4:
         if (x > 1000 && is_joystick_free) {
-          tmp = (effectManager->getPaletteId() + 1) % Params::NB_PALETTES;
+          tmp = effectManager->getPaletteId() - 1;
+          if (tmp < 0) tmp += Params::NB_PALETTES;
           effectManager->selectPalette(tmp);
           screenManager->awake();
           is_joystick_free = false;
         } else if (x < 24 && is_joystick_free) {
-          tmp = effectManager->getPaletteId() - 1;
-          if (tmp < 0) tmp += Params::NB_PALETTES;
+          tmp = (effectManager->getPaletteId() + 1) % Params::NB_PALETTES;
           effectManager->selectPalette(tmp);
           screenManager->awake();
           is_joystick_free = false;

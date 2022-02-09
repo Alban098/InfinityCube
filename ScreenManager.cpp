@@ -54,7 +54,7 @@ void ScreenManager::drawSlider(uint8_t x, uint8_t y, uint8_t value) {
   display->drawLine(x,  y + 3, mapped, y + 3, SSD1306_WHITE);
   display->drawLine(mapped, y, mapped, y + 5, SSD1306_WHITE);
   display->drawLine(mapped - 1, y, mapped + 1, y, SSD1306_WHITE);
-  display->drawLine(mapped - 1, y + 5, mapped + 1, y + 5, SSD1306_WHITE);
+  display->drawLine(mapped - 1, y + 6, mapped + 1, y + 6, SSD1306_WHITE);
 }
 
 void ScreenManager::drawLayout() {
