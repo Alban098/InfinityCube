@@ -70,7 +70,6 @@ void InputManager::frame() {
       case 2:
         if (x > null_pt + Params::JOY_DEAD_ZONE) {
           delta = map(x - (null_pt + Params::JOY_DEAD_ZONE), 0, null_pt - Params::JOY_DEAD_ZONE, 0, 7);
-          
           tmp = max(effectManager->getEffectIntensity() - delta, 0);
           effectManager->setEffectIntensity(tmp);
           screenManager->awake();

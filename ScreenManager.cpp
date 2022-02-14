@@ -35,13 +35,13 @@ void ScreenManager::frame() {
 
 void ScreenManager::fill() {
   drawLayout();
-  drawSlider(32, 17, effectManager->getMasterBrightness());
-  drawSlider(32, 27, effectManager->getEffectSpeed());
-  drawSlider(32, 37, effectManager->getEffectIntensity());
-  drawIndicator((cursor_pos + 2) * 10);
-  display->setCursor(32, 46);
+  drawSlider(32, 16, effectManager->getMasterBrightness());
+  drawSlider(32, 26, effectManager->getEffectSpeed());
+  drawSlider(32, 36, effectManager->getEffectIntensity());
+  drawIndicator((cursor_pos + 2) * 10 - 1);
+  display->setCursor(32, 45);
   display->write(effectManager->getEffect()->getLabel().c_str());
-  display->setCursor(32, 56);
+  display->setCursor(32, 55);
   display->write(effectManager->getPalette()->getLabel().c_str());
 }
 
@@ -60,15 +60,15 @@ void ScreenManager::drawSlider(uint8_t x, uint8_t y, uint8_t value) {
 void ScreenManager::drawLayout() {
   display->setCursor(13, 4);
   display->write("Infinity Cube 1.0");
-  display->setCursor(7, 16);
+  display->setCursor(7, 15);
   display->write("Brt:");
-  display->setCursor(7, 26);
+  display->setCursor(7, 25);
   display->write("Spd:");
-  display->setCursor(7, 36);
+  display->setCursor(7, 35);
   display->write("Int:");
-  display->setCursor(7, 46);
+  display->setCursor(7, 45);
   display->write("Eff:");
-  display->setCursor(7, 56);
+  display->setCursor(7, 55);
   display->write("Pal:");
 }
 

@@ -233,7 +233,7 @@ void PaletteTwinkle::renderTo(CRGB* leds, uint32_t frameTime) {
   if (twinkle_cnt > cnt_threshold ) {
     for (int i = 0; i < twinkle_cnt / cnt_threshold; i++) {
       uint16_t index = random16(Params::NUM_PIXELS);
-      leds[index] = effectManager->getPalette()->sample((uint8_t)(0xFF * i / Params::NUM_PIXELS), 0xFF);
+      leds[index] = effectManager->getPalette()->sample((uint8_t)(0xFF * index / Params::NUM_PIXELS), 0xFF);
     }
     twinkle_cnt = 0;
   }
