@@ -1,10 +1,34 @@
 #include "Effects.h"
+#include "Mapping.h"
 
 void Rainbow::renderTo(CRGB* leds, uint32_t frameTime) {
   float speedFactor = effectManager->getEffectSpeed()/2.55;
   currentHue += 0xFF * frameTime / 50000.0 * speedFactor;
   if (currentHue > 0xFF) currentHue -= 0xFF;
   fill_rainbow(leds, Params::NUM_PIXELS, (uint8_t)currentHue, effectManager->getEffectIntensity() >> 3);
+}
+
+
+void Rainbow3DH::renderTo(CRGB* leds, uint32_t frameTime) {
+  float speedFactor = effectManager->getEffectSpeed()/2.55;
+  float step = effectManager->getEffectIntensity()/64.0;
+  currentHue += 0xFF * frameTime / 50000.0 * speedFactor;
+  if (currentHue > 0xFF) currentHue -= 0xFF;
+  for (int i = 0; i < Params::NUM_PIXELS; i++) {
+    Point p = Mapping::points[i];
+    leds[i] = CHSV(((uint16_t)(currentHue - p.z * step)) % 0xFF, 0xFF, 0xFF);
+  }
+}
+
+void Rainbow3DV::renderTo(CRGB* leds, uint32_t frameTime) {
+  float speedFactor = effectManager->getEffectSpeed()/2.55;
+  float step = effectManager->getEffectIntensity()/64.0;
+  currentHue += 0xFF * frameTime / 50000.0 * speedFactor;
+  if (currentHue > 0xFF) currentHue -= 0xFF;
+  for (int i = 0; i < Params::NUM_PIXELS; i++) {
+    Point p = Mapping::points[i];
+    leds[i] = CHSV(((uint16_t)(currentHue + p.x * step)) % 0xFF, 0xFF, 0xFF);
+  }
 }
 
 void Solid::renderTo(CRGB* leds, uint32_t frameTime) {
@@ -237,4 +261,91 @@ void PaletteTwinkle::renderTo(CRGB* leds, uint32_t frameTime) {
     }
     twinkle_cnt = 0;
   }
+}
+
+void Scan3DH::renderTo(CRGB* leds, uint32_t frameTime) {
+  float speedFactor = effectManager->getEffectSpeed()/20.0;
+  uint8_t range = map(effectManager->getEffectIntensity(), 0, 255, 8, 32);
+  for (uint16_t i = 0; i < Params::NUM_PIXELS; i++) {    
+    Point p = Mapping::points[i];
+    if (p.z >= plane - range && p.z <= plane + range) {
+      leds[i] = CRGB(effectManager->getPrimaryColor());
+    } else {
+      leds[i] = CRGB::Black;
+    }
+  }
+  plane += speedFactor * dir;
+  if (plane >= 255 + range || plane <= - range)
+    dir = -dir;
+}
+
+void Scan3DV::renderTo(CRGB* leds, uint32_t frameTime) {
+  float speedFactor = effectManager->getEffectSpeed()/20.0;
+  uint8_t range = map(effectManager->getEffectIntensity(), 0, 255, 8, 32);
+  for (uint16_t i = 0; i < Params::NUM_PIXELS; i++) {    
+    Point p = Mapping::points[i];
+    if (p.x >= plane - range && p.x <= plane + range) {
+      leds[i] = CRGB(effectManager->getPrimaryColor());
+    } else {
+      leds[i] = CRGB::Black;
+    }
+  }
+  plane += speedFactor * dir;
+  if (plane >= 255 + range || plane <= - range)
+    dir = -dir;
+}
+
+void PalScan3DH::renderTo(CRGB* leds, uint32_t frameTime) {
+  float speedFactor = effectManager->getEffectSpeed()/20.0;
+  uint8_t range = map(effectManager->getEffectIntensity(), 0, 255, 8, 32);
+  for (uint16_t i = 0; i < Params::NUM_PIXELS; i++) {    Point p = Mapping::points[i];
+    if (p.z >= plane - range && p.z <= plane + range) {
+      leds[i] = effectManager->getPalette()->sample((uint8_t)(0xFF * i / Params::NUM_PIXELS), 0xFF);
+    } else {
+      leds[i] = CRGB::Black;
+    }
+  }
+  plane += speedFactor * dir;
+  if (plane >= 255 + range || plane <= - range)
+    dir = -dir;
+}
+
+void PalScan3DV::renderTo(CRGB* leds, uint32_t frameTime) {
+  float speedFactor = effectManager->getEffectSpeed()/20.0;
+  uint8_t range = map(effectManager->getEffectIntensity(), 0, 255, 8, 32);
+  for (uint16_t i = 0; i < Params::NUM_PIXELS; i++) {
+    Point p = Mapping::points[i];
+    if (p.x >= plane - range && p.x <= plane + range) {
+      leds[i] = effectManager->getPalette()->sample((uint8_t)(0xFF * i / Params::NUM_PIXELS), 0xFF);
+    } else {
+      leds[i] = CRGB::Black;
+    }
+  }
+  plane += speedFactor * dir;
+  if (plane >= 255 + range || plane <= - range)
+    dir = -dir;
+}
+
+void Sin3D::renderTo(CRGB* leds, uint32_t frameTime) {
+  for (uint16_t i = 0; i < Params::NUM_PIXELS; i++) {
+    Point p = Mapping::points[i];
+    if (p.z <= sin8((uint8_t)(p.x * (uint8_t)(effectManager->getEffectIntensity()/128.0) + t))) {
+      leds[i] = CRGB(effectManager->getPrimaryColor());
+    } else {
+      leds[i] = CRGB::Black;
+    }
+  }
+  t += effectManager->getEffectSpeed() * 0.05f;
+}
+
+void PalSin3D::renderTo(CRGB* leds, uint32_t frameTime) {
+  for (uint16_t i = 0; i < Params::NUM_PIXELS; i++) {
+    Point p = Mapping::points[i];
+    if (p.z <= sin8((uint8_t)(p.x * (uint8_t)(effectManager->getEffectIntensity()/128.0) + t))) {
+      leds[i] = effectManager->getPalette()->sample((uint8_t)(0xFF * i / Params::NUM_PIXELS), 0xFF);
+    } else {
+      leds[i] = CRGB::Black;
+    }
+  }
+  t += effectManager->getEffectSpeed() * 0.05f;
 }

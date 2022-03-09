@@ -18,6 +18,8 @@
 Effect* EffectManager::effects[Params::NB_EFFECTS] = {
     new Solid(),
     new Rainbow(),
+    new Rainbow3DV(),
+    new Rainbow3DH(),
     new Strobe(),
     new StrobeRandom(),
     new Blink(),
@@ -36,7 +38,13 @@ Effect* EffectManager::effects[Params::NB_EFFECTS] = {
     new RunningSharp(),
     new FireFlicker(),
     new ColorTwinkle(),
-    new PaletteTwinkle()
+    new PaletteTwinkle(),
+    new Sin3D(),
+    new PalSin3D(),
+    new Scan3DH(),
+    new PalScan3DH(),
+    new Scan3DV(),
+    new PalScan3DV()
 };
         
 Palette* EffectManager::palettes[Params::NB_PALETTES] = {

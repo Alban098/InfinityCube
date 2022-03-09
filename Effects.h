@@ -22,6 +22,29 @@ class Rainbow : public Effect {
     void renderTo(CRGB* leds, uint32_t frameTime) override;
 };
 
+class Rainbow3DV : public Effect {
+   private:
+    float currentHue = 0.0;
+
+   public:
+    Rainbow3DV() : Effect() { this->label = "Rainbow 3D V."; }
+    ~Rainbow3DV() {}
+
+    void renderTo(CRGB* leds, uint32_t frameTime) override;
+};
+
+class Rainbow3DH : public Effect {
+   private:
+    float currentHue = 0.0;
+
+   public:
+    Rainbow3DH() : Effect() { this->label = "Rainbow 3D H."; }
+    ~Rainbow3DH() {}
+
+    void renderTo(CRGB* leds, uint32_t frameTime) override;
+};
+
+
 class Solid : public Effect {
    public:
     Solid() : Effect() { this->label = "Solid"; }
@@ -239,6 +262,76 @@ class PaletteTwinkle : public Effect {
   public:
     PaletteTwinkle() : Effect() { this->label = "Palette Twinkle"; }
     ~PaletteTwinkle() {}
+  
+    void renderTo(CRGB* leds, uint32_t frameTime) override;
+};
+
+class Scan3DH : public Effect {
+  private:
+    float plane = 0;
+    int8_t dir = 1;
+    
+  public:
+    Scan3DH() : Effect() { this->label = "Scan 3D H."; }
+    ~Scan3DH() {}
+  
+    void renderTo(CRGB* leds, uint32_t frameTime) override;
+};
+
+class Scan3DV : public Effect {
+  private:
+    float plane = 0;
+    int8_t dir = 1;
+    
+  public:
+    Scan3DV() : Effect() { this->label = "Scan 3D V."; }
+    ~Scan3DV() {}
+  
+    void renderTo(CRGB* leds, uint32_t frameTime) override;
+};
+
+class PalScan3DH : public Effect {
+  private:
+    float plane = 0;
+    int8_t dir = 1;
+    
+  public:
+    PalScan3DH() : Effect() { this->label = "Scan 3D Pal H."; }
+    ~PalScan3DH() {}
+  
+    void renderTo(CRGB* leds, uint32_t frameTime) override;
+};
+
+class PalScan3DV : public Effect {
+  private:
+    float plane = 0;
+    int8_t dir = 1;
+    
+  public:
+    PalScan3DV() : Effect() { this->label = "Scan 3D Pal V."; }
+    ~PalScan3DV() {}
+  
+    void renderTo(CRGB* leds, uint32_t frameTime) override;
+};
+
+class Sin3D : public Effect {
+  private:
+    float t = 0;
+    
+  public:
+    Sin3D() : Effect() { this->label = "Sin 3D"; }
+    ~Sin3D() {}
+  
+    void renderTo(CRGB* leds, uint32_t frameTime) override;
+};
+
+class PalSin3D : public Effect {
+  private:
+    float t = 0;
+    
+  public:
+    PalSin3D() : Effect() { this->label = "Pal Sin 3D"; }
+    ~PalSin3D() {}
   
     void renderTo(CRGB* leds, uint32_t frameTime) override;
 };
