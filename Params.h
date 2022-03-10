@@ -7,9 +7,9 @@ class Params {
     static const uint8_t LED_PIN            = 12;  // D6
     static const uint8_t JOY_SW_PIN         = 13;  // D7
     static const uint8_t JOY_DEAD_ZONE      = 10;
-    static const uint8_t NB_EFFECTS         = 29;
+    static const uint8_t NB_EFFECTS         = 28;
     static const uint8_t NB_PALETTES        = 54;
-    static const uint8_t FPS                = 60;
+    static const uint8_t FPS                = 120;
     static const uint8_t BRIGHTNESS         = 0;
     static const uint8_t MAX_WIFI_ATTEMPTS  = 25;
     static const uint8_t MAX_BRIGHTNESS     = 255;

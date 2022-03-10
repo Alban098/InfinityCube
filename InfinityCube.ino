@@ -40,11 +40,10 @@ Effect* EffectManager::effects[Params::NB_EFFECTS] = {
     new ColorTwinkle(),
     new PaletteTwinkle(),
     new Sin3D(),
-    new PalSin3D(),
     new Scan3DH(),
-    new PalScan3DH(),
     new Scan3DV(),
-    new PalScan3DV()
+    new Sweep3DH(),
+    new Sweep3DV()
 };
         
 Palette* EffectManager::palettes[Params::NB_PALETTES] = {

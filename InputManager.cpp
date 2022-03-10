@@ -118,7 +118,6 @@ void InputManager::frame() {
         break;
     }
     lastFrame = millis();
-    
   }
 }
 

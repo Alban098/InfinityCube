@@ -9,7 +9,8 @@ A kind of lightweight ESP32/ESP8266 webserver API and a [NodeJS](https://nodejs.
 
 ## ⚙️Features
 
-- 21 effects and 49 palettes
+- 28 effects and 54 palettes
+	- Some effects are calculated using 3D coords of the cube's edges (for maximum satisfaction)
 - Customizable effect speed and intensity
 - 3 customizable palettes 
 - Simple UI with color, effect and network settings
@@ -18,7 +19,6 @@ A kind of lightweight ESP32/ESP8266 webserver API and a [NodeJS](https://nodejs.
 - Possibility to rescale the brightness range
 - Controllable using integrated Joystick
 - Possibility to use an I2C 128x64 screen to monitor status (with configurable auto sleep)
-  - Not tested yet, will be reworked and tested when I will have the hardware delivered
 ## 📲 Quick start
 
 ### Required libraries
