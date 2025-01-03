@@ -2,7 +2,7 @@ const axios = require('axios');
 const net = require("net");
 const ping = require("ping");
 
-exports.address = '10.5.0.7';
+exports.address = '10.5.0.45';
 exports.effets = {};
 exports.palettes = {};
 exports.status = {};

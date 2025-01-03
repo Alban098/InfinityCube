@@ -4,8 +4,7 @@
 #include <stdlib.h>
 #include <string>
 #include "EffectManager.h"
-#include "ScreenManager.h"
-#include "InputManager.h"
+#include "InputManager.h" 
 #include "Params.h"
 #include "Effects.h"
 #include "ApiServer.h"
@@ -103,23 +102,18 @@ Palette* EffectManager::palettes[Params::NB_PALETTES] = {
     new Palette("Christmas Candy", LINEARBLEND, christmas_candy_gp)
 };
 
-Adafruit_SSD1306 display(128, 64, &Wire, -1);
-
 EffectManager effectManager = EffectManager(Params::FPS, Params::BRIGHTNESS, Params::DEFAULT_PRIMARY_COLOR, Params::DEFAULT_SECONDARY_COLOR, Params::DEFAULT_TERTIARY_COLOR);
-ScreenManager screenManager = ScreenManager(30, &effectManager, &display);
-InputManager inputManager = InputManager(30, &effectManager, &screenManager);
+InputManager inputManager = InputManager(30, &effectManager); 
 ApiServer server = ApiServer(&effectManager, &inputManager);
 
 void setup() {
   Serial.begin(115200);
-  effectManager.init(); 
   inputManager.calibrate();
-  screenManager.awake();
+  effectManager.init();
   server.start();
 }
 
-void loop(){
+void loop() {
   inputManager.frame();
-  screenManager.frame();
   effectManager.frame();
 }

@@ -83,7 +83,7 @@ AsyncResponseStream* ApiServer::generateStatusJson(AsyncWebServerRequest *reques
   doc[Params::PARAM_INTENSITY] = effectManager->getEffectIntensity();
   doc[Params::PARAM_BRIGHTNESS] = effectManager->getMasterBrightness();
   doc[Params::PARAM_NET_SSID] = net_ssid;
-  doc[Params::PARAM_NET_PASS] = net_pass;
+  doc[Params::PARAM_NET_PASS] = "********";
   doc[Params::PARAM_NET_IP] = WiFi.localIP();
   doc[Params::PARAM_NET_GATEWAY] = WiFi.gatewayIP();
   doc[Params::PARAM_NET_MASK] = WiFi.subnetMask();
@@ -121,7 +121,7 @@ AsyncResponseStream* ApiServer::generatePalettesJson(AsyncWebServerRequest *requ
 
 void ApiServer::handleGet(AsyncWebServerRequest *request) {
   uint8_t paramsNr = request->params();
-  for(uint8_t i=0; i<paramsNr; i++){
+  for(uint8_t i = 0; i<paramsNr; i++){
     AsyncWebParameter* p = request->getParam(i);
     if (strcmp(p->name().c_str(), Params::PARAM_STATUS) == 0) {
       request->send(generateStatusJson(request));
@@ -139,7 +139,7 @@ void ApiServer::handleGet(AsyncWebServerRequest *request) {
 
 void ApiServer::handlePost(AsyncWebServerRequest *request) {
   int paramsNr = request->params();
-  for(int i=0; i<paramsNr; i++){
+  for(int i = 0; i<paramsNr; i++){
     AsyncWebParameter* p = request->getParam(i);
     if (strcmp(p->name().c_str(), Params::PARAM_PAL) == 0) {
       effectManager->selectPalette(atoi(p->value().c_str()) % effectManager->getNbPalettes());
@@ -170,7 +170,7 @@ void ApiServer::handleCalibrate(AsyncWebServerRequest *request) {
 void ApiServer::handleSetup(AsyncWebServerRequest *request) {
   uint8_t paramsNr = request->params();
   if (paramsNr > 0) {
-    for(uint8_t i=0; i<paramsNr; i++){
+    for(uint8_t i = 0; i<paramsNr; i++){
       AsyncWebParameter* p = request->getParam(i);
       if (strcmp(p->name().c_str(), "ssid") == 0) {
         EEPROMUtils::writeString(SSID_ADDR, p->value().c_str());
@@ -208,7 +208,7 @@ void ApiServer::handleSetup(AsyncWebServerRequest *request) {
     resetFunc();
   } else {
     char buf[2048];
-    sprintf(buf, HTMLPages::WIFI_FORM, net_ssid, net_pass, net_ip[0], net_ip[1], net_ip[2], net_ip[3], net_gateway[0], net_gateway[1], net_gateway[2], net_gateway[3], net_mask[0], net_mask[1], net_mask[2], net_mask[3]); 
+    sprintf(buf, HTMLPages::WIFI_FORM, net_ssid, "********", net_ip[0], net_ip[1], net_ip[2], net_ip[3], net_gateway[0], net_gateway[1], net_gateway[2], net_gateway[3], net_mask[0], net_mask[1], net_mask[2], net_mask[3]); 
     AsyncWebServerResponse *response = request->beginResponse_P(200, "text/html", buf);
     request->send(response);
   }
